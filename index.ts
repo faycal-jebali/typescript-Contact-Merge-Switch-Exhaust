@@ -7,6 +7,8 @@ import {
   exhaustMap,
   takeLast,
   take,
+  flatMap,
+  map,
 } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
 
@@ -94,7 +96,9 @@ lisIds$
      * below you could use mergeMapTo instead.
      * ex. mergeMapTo(ajax.getJSON(API_URL))
      */
-    mergeMap((id) => ajax.getJSON(`${API_ALL_URL}/${id}`))
+    flatMap((id) =>
+      ajax.getJSON(`${API_ALL_URL}/${id}`).pipe(map((item) => item))
+    )
   )
   // { userId: 1, id: 1, ...}
-  .subscribe((data) => console.log(`TODO ID: `, data));
+  .subscribe((data: any) => console.log(`TODO ID ${data?.id}: `, data));

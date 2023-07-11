@@ -97,8 +97,12 @@ lisIds$
      * ex. mergeMapTo(ajax.getJSON(API_URL))
      */
     flatMap((id) =>
-      ajax.getJSON(`${API_ALL_URL}/${id}`).pipe(map((item) => item))
+      ajax.getJSON(`${API_ALL_URL}/${id}`).pipe(
+        map((item) => {
+          data: item;
+        })
+      )
     )
   )
   // { userId: 1, id: 1, ...}
-  .subscribe((data: any) => console.log(`TODO ID ${data?.id}: `, data));
+  .subscribe((data: any) => console.log(`TODO ID ${data?.data.id}: `, data));
